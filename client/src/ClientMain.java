@@ -28,7 +28,9 @@ public class ClientMain {
                     CoreCommand coreCommand = commandValidation.createCommand(command);
                     connectManager.sendCommand(coreCommand);
                     Answer answer = connectManager.getAnswerFromServer();
-                    answer.sort();
+                    if(answer!=null) {
+                        answer.sort();
+                    }
                     System.out.println(answer);
 
                 }catch (ValidateException e){

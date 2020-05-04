@@ -9,7 +9,7 @@ public class CoreCommand implements Serializable {
     private String description;
     private boolean needArg = false;
     private boolean needWorker = false;
-    private String typeOfArg;
+    private String typeOfArg = "";
 
     public CoreCommand(String name, String arg, Worker worker){
         this.name =name;

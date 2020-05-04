@@ -14,11 +14,15 @@ public class CommandReader {
         MyLogger.info("Получение команды с клиента");
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ByteBuffer byteBuffer = ByteBuffer.allocate(900000000);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(6553600);
             int n=0;
+            int i=0;
             while ((n=socketChannel.read(byteBuffer))>0){
+                i++;
+                MyLogger.info("Заполнение буфера номер - " + i);
                 byteBuffer.flip();
                 byteArrayOutputStream.write(byteBuffer.array(),0,n);
+                byteBuffer.clear();
             }
 
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
