@@ -1,3 +1,4 @@
+import CoreSource.Answer;
 import CoreSource.CoreCommand;
 import CoreSource.Factory;
 import CoreSource.Worker;
@@ -18,7 +19,7 @@ public class ClientMain {
         Scanner scanner = new Scanner(System.in);
         try {
             ConnectManager connectManager = new ConnectManager(8800,InetAddress.getLocalHost());
-            String command;
+            String command = "";
             while (!command.equals("exit")){
                 try {
                     System.out.println("Введите команду");
@@ -26,7 +27,9 @@ public class ClientMain {
                     connectManager.connect(commandValidation);
                     CoreCommand coreCommand = commandValidation.createCommand(command);
                     connectManager.sendCommand(coreCommand);
-                    System.out.println(connectManager.getAnswerFromServer());
+                    Answer answer = connectManager.getAnswerFromServer();
+                    answer.sort();
+                    System.out.println(answer);
 
                 }catch (ValidateException e){
                     System.out.println("Команда не прошла валидацию!");
