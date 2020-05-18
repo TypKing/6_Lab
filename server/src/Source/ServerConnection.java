@@ -13,50 +13,45 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 public class ServerConnection {
-    private SocketAddress socketAddress;
     private ServerSocketChannel serverSocketChannel;
     private SocketChannel socketChannel;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
-    private Selector selector;
-    public void connect(int port){
+    private int port;
+    public ServerConnection(int port){
         try {
-                MyLogger.info("Попытка соединения с клиентом");
-                setSocketAddress(new InetSocketAddress(port));
-                setServerSocketChannel(ServerSocketChannel.open());
-                serverSocketChannel.bind(socketAddress);
-                setSocketChannel(getServerSocketChannel().accept());
-                MyLogger.info("Соединение успешно");
-                selector = Selector.open();
-                socketChannel.configureBlocking(false);
-                socketChannel.register(selector,SelectionKey.OP_READ);
+            port = 8800;
+            SocketAddress socketAddress = new InetSocketAddress(port);
+            serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.bind(socketAddress);
+            serverSocketChannel.configureBlocking(false);
             MyLogger.info("Каналы связи переведены в неблокируемый режим");
         }catch (IOException e){
             MyLogger.error("Соединение неуспешно!");
             throw new ConnectException("Возникли проблемы с подключением.");
         }
     }
-    public void disconnect(){
+    public void connect(){
         try {
-            MyLogger.info("Попытка отсоединения сервера");
-            getServerSocketChannel().close();
-            getSocketChannel().close();
-            selector.close();
-            MyLogger.info("Отсоединение успешно");
+                MyLogger.info("Попытка соединения с клиентом");
+                socketChannel = serverSocketChannel.accept();
+                MyLogger.info("Соединение успешно");
+                if(socketChannel!=null) {
+                    socketChannel.configureBlocking(false);
+                }
         }catch (IOException e){
-            MyLogger.error("Возникли проблемы с отключением");
-            throw new ConnectException("Возникли проблемы с отключением.");
+            MyLogger.error("Соединение неуспешно!");
+            throw new ConnectException("Возникли проблемы с подключением.");
         }
-
     }
-    public SocketAddress getSocketAddress() {
-        return socketAddress;
+    public void closeSocketChannel(){
+        try {
+            MyLogger.info("Закрытие сокета");
+            socketChannel.close();
+            socketChannel = null;
+            MyLogger.info("Успешно");
+        } catch (IOException e) {
+            MyLogger.error("Не удалось закрыть сокет");
+        }
     }
-
-    public void setSocketAddress(SocketAddress socketAddress) {
-        this.socketAddress = socketAddress;
-    }
-
     public ServerSocketChannel getServerSocketChannel() {
         return serverSocketChannel;
     }
@@ -73,23 +68,4 @@ public class ServerConnection {
         this.socketChannel = socketChannel;
     }
 
-    public Selector getSelector() {
-        return selector;
-    }
-
-    public ObjectInputStream getObjectInputStream() {
-        return objectInputStream;
-    }
-
-    public void setObjectInputStream(ObjectInputStream objectInputStream) {
-        this.objectInputStream = objectInputStream;
-    }
-
-    public ObjectOutputStream getObjectOutputStream() {
-        return objectOutputStream;
-    }
-
-    public void setObjectOutputStream(ObjectOutputStream objectOutputStream) {
-        this.objectOutputStream = objectOutputStream;
-    }
 }

@@ -5,6 +5,10 @@ import Exceptions.ConnectException;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
 public class ConnectManager {
@@ -45,11 +49,8 @@ public class ConnectManager {
     }
     public void disconnect(){
         try {
-            objectInputStream.close();
-            objectOutputStream.close();
             socket.close();
-
-        }catch (IOException ignored){
+        }catch (IOException | NullPointerException ignored){
         }
     }
     public void sendCommand(CoreCommand coreCommand){
@@ -57,6 +58,7 @@ public class ConnectManager {
             setObjectOutputStream(new ObjectOutputStream(socket.getOutputStream()));
             objectOutputStream.writeObject(coreCommand);
         }catch (IOException e){
+            e.printStackTrace();
             System.out.println("Возникли проблемы с отправкой команды");
         }
     }

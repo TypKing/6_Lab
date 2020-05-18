@@ -20,7 +20,7 @@ public class ClientMain {
         try {
             ConnectManager connectManager = new ConnectManager(8800,InetAddress.getLocalHost());
             String command = "";
-            while (!command.equals("exit")){
+            while (!command.trim().toLowerCase().equals("exit")){
                 try {
                     System.out.println("Введите команду");
                     command = scanner.nextLine();

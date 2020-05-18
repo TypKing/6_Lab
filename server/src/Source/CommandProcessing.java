@@ -12,6 +12,7 @@ import java.util.Map;
 public class CommandProcessing {
     private Command command;
     private CoreCommand coreCommand;
+    private static final String DEFAULT_PATH = "server\\src\\Files\\data.json";
     CommandExecution commandExecution = new CommandExecution();
     CommandManager commandManager = new CommandManager();
     File collectionFile;
@@ -19,7 +20,7 @@ public class CommandProcessing {
     public CommandProcessing(){
         String filePath = System.getenv("INPUT_PATH");
         if(filePath == null){
-            filePath = "server\\src\\Files\\data.json";
+            filePath = DEFAULT_PATH;
         }
         collectionFile = new File(filePath);
         collection = new Collection(collectionFile);
