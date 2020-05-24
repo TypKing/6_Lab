@@ -7,14 +7,15 @@ import Exceptions.ValidateException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommandValidation {
-    ArrayList<AbstractCommand> coreCommands;
+    List<AbstractCommand> coreCommands;
 
     Factory factory = new Factory();
 
     void getCommands(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-        coreCommands = (ArrayList<AbstractCommand> ) objectInputStream.readObject();
+        coreCommands = (List<AbstractCommand> ) objectInputStream.readObject();
     }
     CoreCommand createCommand(String com) throws ValidateException{
         Worker worker = null;

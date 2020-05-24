@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Collection {
-    private LinkedHashSet<Worker> collection = new LinkedHashSet<Worker>();
+    private Set<Worker> collection = new LinkedHashSet<Worker>();
     private HashSet<String> passportSet = new HashSet<String>();
     private String type = getCollection().getClass().getTypeName();
     private LocalDateTime creationTime;
@@ -86,7 +86,7 @@ public class Collection {
      */
     public Answer show() {
         Answer answer;
-        ArrayList<Worker> workers = new ArrayList<Worker>(Arrays.asList(getCollection().stream().toArray(Worker[]::new)));
+        ArrayList<Worker> workers = new ArrayList<>(Arrays.asList(getCollection().stream().toArray(Worker[]::new)));
         return new Answer("Список рабочих:",workers);
     }
 
@@ -98,7 +98,7 @@ public class Collection {
     public Answer replace(int id, Worker newWorker) {
         if (!getCollection().isEmpty()) {
             if (collection.stream().filter(worker -> worker.getId()==id).count() >= 1) {
-                LinkedHashSet<Worker> workers = new LinkedHashSet<Worker>();
+                LinkedHashSet<Worker> workers = new LinkedHashSet<>();
                 collection.stream().filter(worker -> worker.getId() != id).forEach(workers::add);
                 newWorker.setId(id);
                 workers.add(newWorker);
@@ -117,7 +117,7 @@ public class Collection {
      * @return
      */
     public Answer remove(int id) {
-        LinkedHashSet<Worker> collection1 = new LinkedHashSet<Worker>();
+        Set<Worker> collection1 = new LinkedHashSet<>();
         if (!getCollection().isEmpty()) {
             if(collection.stream().filter(worker -> worker.getId()==id).count() == 1) {
                 collection.stream().filter(worker -> worker.getId() != id).forEach(collection1::add);
@@ -137,7 +137,7 @@ public class Collection {
      * @return
      */
     public Answer removeGreater(Worker newWorker){
-        LinkedHashSet<Worker> collection1 = new LinkedHashSet<>();
+        Set<Worker> collection1 = new LinkedHashSet<>();
         IdGenerator.clear();
         countOfWorkers = 0;
         collection.forEach(worker -> {
@@ -155,7 +155,7 @@ public class Collection {
      * @return
      */
     public Answer removeLower(Worker newWorker){
-        LinkedHashSet<Worker> collection1 = new LinkedHashSet<>();
+        Set<Worker> collection1 = new LinkedHashSet<>();
         IdGenerator.clear();
         countOfWorkers = 0;
         collection.stream().forEach(worker -> {
@@ -208,7 +208,7 @@ public class Collection {
     /**
      * @return возвращает коллекцию
      */
-    public LinkedHashSet<Worker> getCollection() {
+    public Set<Worker> getCollection() {
         return collection;
     }
 
