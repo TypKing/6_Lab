@@ -58,7 +58,6 @@ public class ConnectManager {
             setObjectOutputStream(new ObjectOutputStream(socket.getOutputStream()));
             objectOutputStream.writeObject(coreCommand);
         }catch (IOException e){
-            e.printStackTrace();
             System.out.println("Возникли проблемы с отправкой команды");
         }
     }

@@ -41,11 +41,10 @@ public class ClientMain {
 
             }
         }catch (ConnectException e){
-
+            System.out.println("Не удалось подключиться к серверу.");
         }
         catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Говно давай сначала");
+            System.out.println("Ошибка ввода/вывода данных.");
         }
     }
 }

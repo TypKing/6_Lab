@@ -8,9 +8,7 @@ import Decoration.Colors;
 import Exceptions.FieldException;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 public class Person implements Serializable, Comparable<Person> {
     public Person(Double height, Long weight, String passportID, Float x, Long y, long z) {
@@ -24,38 +22,6 @@ public class Person implements Serializable, Comparable<Person> {
     private Long weight; //Поле не может быть null, Значение поля должно быть больше 0
     private String passportID; //Значение этого поля должно быть уникальным, Строка не может быть пустой, Поле может быть null
     private Location location; //Поле не может быть null
-
-    public long getPassportIDValue() {
-        try {
-            return passportID.length()*10;
-        }catch (NullPointerException e){
-            return 0;
-        }
-    }
-    public long getHeightValue() {
-        try {
-            return Math.round(height);
-        }catch (NullPointerException e){
-            return 0;
-        }
-    }
-    public long getWeightValue() {
-            return weight;
-    }
-    public long getLocationValue() {
-        return location.getValue();
-    }
-
-    public Answer printAscendingValues(){
-        HashMap<Long,String> values = new HashMap<>();
-        values.put(getHeightValue(),"Рост");
-        values.put(getWeightValue(),"Вес");
-        values.put(getPassportIDValue(),"Паспортные данныe");
-        values.put(getLocationValue(),"Локация");
-        AtomicReference<String> answer = new AtomicReference<>("");
-        values.entrySet().stream().sorted(Map.Entry.<Long,String>comparingByKey()).forEach(longStringEntry -> answer.updateAndGet(v -> v + longStringEntry));
-        return new Answer(answer.toString());
-    }
 
     @Override
     public int compareTo(Person o) {
@@ -100,9 +66,6 @@ public class Person implements Serializable, Comparable<Person> {
             return z;
         }
 
-        public long getValue(){
-            return  Math.round(x)+y+z;
-        }
     }
 
     public Double getHeight() {

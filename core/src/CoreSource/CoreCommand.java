@@ -2,7 +2,7 @@ package CoreSource;
 
 import java.io.Serializable;
 
-public class CoreCommand implements Serializable {
+public class CoreCommand implements Serializable, AbstractCommand {
     private Worker worker;
     private String arg;
     private String name;
